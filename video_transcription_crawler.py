@@ -1,11 +1,12 @@
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
+from pymongo import MongoClient
 
-url = "https://youtu.be/hByfAzEoeKA"
-tag = "ytd-transcript-segment-renderer"
-id1 = "segments-container"
+url = "https://www.youtube.com/watch?v=hByfAzEoeKA"
 class1 = "style-scope ytd-transcript-segment-list-renderer"
+
+client = MongoClient("mongodb+srv://cyanZEUS:cyanZEUS@cluster0.w4dydp9.mongodb.net/?retryWrites=true&w=majority")
 
 def main():
     driver = webdriver.Chrome()
@@ -25,5 +26,5 @@ def main():
     time.sleep(1)
     for title in titles:
         print(title.text)
-    
+
 main()
