@@ -22,9 +22,10 @@ def main():
     time.sleep(1)
     soup = BeautifulSoup(content, 'lxml')
     time.sleep(1)
-    titles = soup.findAll("div",id="segments-container")
+    time_stamp = soup.findAll("div", class_="segment-timestamp style-scope ytd-transcript-segment-renderer")
+    transcript = soup.findAll("yt-formatted-string", class_="segment-text style-scope ytd-transcript-segment-renderer")
     time.sleep(1)
-    for title in titles:
-        print(title.text)
+    for x in time_stamp:
+        print('\n {} - {}'.format(x.text, transcript.text))
 
 main()

@@ -3,7 +3,8 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
-url = "https://www.youtube.com/@joerogan/videos"
+channel_url = input("enter channel URL : ")
+url = str(channel_url) + "/videos"
 
 def db_config(channel_name):
     client = MongoClient("mongodb+srv://cyanZEUS:cyanZEUS@cluster0.w4dydp9.mongodb.net/?retryWrites=true&w=majority")
@@ -13,6 +14,9 @@ def db_config(channel_name):
 
 def save_to_db(collection, title, link):
     collection.insert_one({"title": title, "link": link})
+    
+def replace_spaces(string):
+    return string.replace(" ", "_")
 
 def main():
     chrome_options = webdriver.ChromeOptions()
@@ -34,7 +38,7 @@ def main():
     soup = BeautifulSoup(content, 'lxml')
     ch_name = soup.find("yt-formatted-string", id="text", class_="style-scope ytd-channel-name")
     titles = soup.findAll("a",id="video-title-link", class_="yt-simple-endpoint focus-on-expand style-scope ytd-rich-grid-media")
-    collection = db_config(ch_name.text)
+    collection = db_config(replace_spaces(ch_name.text))
     print('\nChannel: {}\nURL: {}'.format(ch_name.text, url))
     i=1
     for title in titles:
